@@ -7,21 +7,20 @@
         width:80px;
     }
 </style>
-
 <script>
-    let item_search = {
+    let marker_search = {
         init:function(){
             $('#search_btn').click(function(){
                 $('#search_form').attr({
                     method:'get',
-                    action:'/item/search'
+                    action:'/marker/search'
                 });
                 $('#search_form').submit();
             });
         }
     }
     $(function(){
-        item_search.init();
+        marker_search.init();
     })
 </script>
 
@@ -29,43 +28,37 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Item All</h1>
-
+    <h1 class="h3 mb-2 text-gray-800">Marker All</h1>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Item All Table</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Marker All Table</h6>
+
             <form id="search_form" class="form-inline well">
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="min_price">Min_Price: </label>
-                    <div class="col-sm-4"> <!--name 은 서버로 보내는 이름을 의미-->
-                            <input type="number" name="min_price" class="form-control" id="min_price"
-                                   value="${is.min_price}"
-                            >
-                    </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="loc">Loc: </label>
+                <div class="col-sm-4"> <!--name 은 서버로 보내는 이름을 의미-->
+                    <select class="form-control" id="loc" name="loc" >
+                        <option value="s" <c:if test="${ms.loc=='s'}">selected</c:if> >서울</option>
+                        <option value="b" <c:if test="${ms.loc=='b'}">selected</c:if> >부산</option>
+                        <option value="j" <c:if test="${ms.loc=='j'}">selected</c:if> >제주</option>
+                    </select>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="max_price">Max_Price: </label>
-                    <div class="col-sm-4"> <!--name 은 서버로 보내는 이름을 의미-->
-                        <input type="number" name="max_price" class="form-control" id="max_price"
-                               value="${is.max_price}"
-                        >
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="title">Title: </label>
+                <div class="col-sm-10"> <!--name 은 서버로 보내는 이름을 의미-->
+                    <input type="text" name="title" class="form-control" id="title"
+                    value="${ms.title}"
+                    >
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="name">Name: </label>
-                    <div class="col-sm-4"> <!--name 은 서버로 보내는 이름을 의미-->
-                        <input type="text" name="name" class="form-control" id="name"
-                               value="${is.name}"
-                        >
-                    </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button id="search_btn" type="button" class="btn btn-info">Search</button>
                 </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button id="search_btn" type="button" class="btn btn-info">Search</button>
-                    </div>
-                </div>
-            </form>
+            </div>
+        </form>
         </div>
 
         <div class="card-body">
@@ -76,18 +69,22 @@
                     <tr>
                         <th>IMAGE</th>
                         <th>ID</th>
-                        <th>NAME</th>
-                        <th>PRICE</th>
-                        <th>RDATE</th>
+                        <th>TITLE</th>
+                        <th>TARGET</th>
+                        <th>LAT</th>
+                        <th>LNG</th>
+                        <th>LOC</th>
                     </tr>
                     </thead>
                     <tfoot>
                     <tr>
                         <th>IMAGE</th>
                         <th>ID</th>
-                        <th>NAME</th>
-                        <th>PRICE</th>
-                        <th>RDATE</th>
+                        <th>TITLE</th>
+                        <th>TARGET</th>
+                        <th>LAT</th>
+                        <th>LNG</th>
+                        <th>LOC</th>
                     </tr>
                     </tfoot>
                     <tbody>
@@ -95,13 +92,15 @@
                         <tr>
                             <td>
                                 <a href="#" data-toggle="modal" data-target="#target${obj.id}">
-                                    <img id="item_img" src="/uimg/${obj.imgname}">
+                                    <img id="item_img" src="/uimg/${obj.img}">
                                 </a>
                             </td>
-                            <td><a href="/item/detail?id=${obj.id}">${obj.id}</a></td>
-                            <td>${obj.name}</td>
-                            <td><fmt:formatNumber value="${obj.price}" type="number" pattern="###,###원"/></td>
-                            <td><fmt:formatDate value="${obj.rdate}" pattern="yyyy-MM-dd:hh-mm-ss" /></td>
+                            <td><a href="/marker/detail?id=${obj.id}">${obj.id}</a></td>
+                            <td>${obj.title}</td>
+                            <td>${obj.target}</td>
+                            <td>${obj.lat}</td>
+                            <td>${obj.lng}</td>
+                            <td>${obj.loc}</td>
                         </tr>
                         <!-- Modal -->
                         <div class="modal fade" id="target${obj.id}" role="dialog">
@@ -112,11 +111,11 @@
                                         <h4 class="modal-title">Detail Image</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <p>${obj.name}</p>
-                                        <img src ="/uimg/${obj.imgname}"><br/>
+                                        <p>${obj.title}</p>
+                                        <img src ="/uimg/${obj.img}"><br/>
                                     </div>
                                     <div class="modal-footer">
-                                        <a href="/item/detail?id=${obj.id}" class="btn btn-info" role="button">Detail</a>
+                                        <a href="/marker/detail?id=${obj.id}" class="btn btn-info" role="button">Detail</a>
                                         <a href="#" class="btn btn-info" data-dismiss="modal" role="button">Close</a>
                                     </div>
                                 </div>

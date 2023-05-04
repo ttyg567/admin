@@ -1,5 +1,7 @@
 package com.kbstar.marker;
 
+
+import com.kbstar.dto.MarkerSearch;
 import com.kbstar.service.MarkerService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -8,19 +10,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @Slf4j
 @SpringBootTest
-class DeleteTest {
+class SearchTest {
     @Autowired
     MarkerService service;
     @Test
     void contextLoads() {
         try {
-            service.remove(108);
-            log.info("삭제 정상..");
+            MarkerSearch ms = new MarkerSearch("", "");
+            service.search(ms);
         } catch (Exception e) {
                 log.info("시스템 장애입니다...------------------------------------------");
                 e.printStackTrace();
-            }
         }
     }
 
-
+}

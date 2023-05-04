@@ -5,6 +5,19 @@
 <mapper namespace="com.kbstar.mapper.ItemMapper">
 
 <!--custDTO = cust-->
+
+    <select id="search" parameterType="itemSearch" resultType="item">
+        SELECT * FROM item
+        <where>
+            <if test="name != null and !name.equals('')">
+                AND name LIKE '%'||#{name}||'%'
+            </if>
+            <if test="price != null and !price.equals('')">
+                AND price BETWEEN #{min_price} AND #{max_price}
+            </if>
+        </where>
+    </select>
+
     <select id="select" parameterType="Integer" resultType="item">
         SELECT * FROM item WHERE iD=#{id}
     </select>
