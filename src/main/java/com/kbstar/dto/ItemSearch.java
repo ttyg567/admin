@@ -8,9 +8,9 @@ import lombok.*;
 @Getter
 @ToString
 public class ItemSearch {
-
     private String name;
-    private int price;
-    private int min_price;
-    private int max_price;
+    private Integer price;
+    private String startdate;
+    private String enddate;
+
 }

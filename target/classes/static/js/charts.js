@@ -1,223 +1,154 @@
-
-
-let chart1 = {
-    init   : function () {
-        /* this를 고정 */
-        const self = this;
-        self.getData(self)
-    },
-    getData: function (self) {
-        $.ajax({
-            url    : '/app_user_statics',
-            success: function (result) {
-                self.display(result);
-            }
-        });
-    },
-    display: function (result) {
-        Highcharts.chart('container', {
-            chart      : {
-                type     : 'column',
+let salesChart = {
+    init:function (){
+        //코드 시작
+        // Data retrieved from https://yearbook.enerdata.net/electricity/world-electricity-production-statistics.html
+        Highcharts.chart('scontainer', {
+            chart: {
+                type: 'column',
                 options3d: {
                     enabled: true,
-                    alpha  : 10,
-                    beta   : 25,
-                    depth  : 70
+                    alpha: 15,
+                    beta: 15,
+                    viewDistance: 25,
+                    depth: 40
                 }
             },
-            title      : {
-                text : '주요 은행 뱅킹 서비스 관련 앱 11월 사용자 수 현황, 2020',
-                align: 'left'
+
+            title: {
+                text: '남녀 일자별 Sales 합계금액',
+                align: 'center'
             },
-            subtitle   : {
-                text : 'Source: ' +
-                    '<a href="https://platum.kr/archives/154943"' +
-                    'target="_blank">아이지에이웍스</a>',
-                align: 'left'
-            },
-            plotOptions: {
-                column: {
-                    depth: 25
-                }
-            },
-            xAxis      : {
-                categories: result.category,
-                labels    : {
+
+            xAxis: {
+                labels: {
                     skew3d: true,
-                    style : {
+                    style: {
                         fontSize: '16px'
                     }
                 }
             },
-            yAxis      : {
+
+            yAxis: {
+                allowDecimals: false,
+                min: 0,
                 title: {
-                    text  : '',
-                    margin: 20
+                    text: 'Sales',
+                    skew3d: true,
+                    style: {
+                        fontSize: '16px'
+                    }
                 }
             },
-            tooltip    : {
-                valueSuffix: ''
+
+            tooltip: {
+                headerFormat: '<b>{point.key}</b><br>',
+                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y} / {point.stackTotal}'
             },
-            series     : [{
-                name: 'Total users',
-                data: result.data
+
+            plotOptions: {
+                series: {
+                    pointStart: 2020
+                },
+                column: {
+                    stacking: 'normal',
+                    depth: 40
+                }
+            },
+
+            series: [{
+                name: 'M',
+                data: [368, 378, 378, 367, 363],
+                stack: 'male'
+            }, {
+                name: 'F',
+                data: [564, 562, 582, 571, 533],
+                stack: 'female'
             }]
         });
+        //코드 끝
+
     }
 };
 
-let chart2 = {
-    init   : function () {
-        /* this를 고정 */
-        const self = this;
-        self.getData(self)
-    },
-    getData: function (self) {
-        $.ajax({
-            url: '/app_user_age',
-            success: function(result){
-                // console.log(result);
-                self.display(result);
-            }
-        });
-    },
-    display: function (result) {
-        Highcharts.chart('container2', {
+let pieChart = {
+    init:function (){
+        // Create the chart
+        Highcharts.chart('pcontainer', {
             chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
                 type: 'pie'
             },
             title: {
-                text: '뱅킹 앱 사용자 연령별 통계, 2020',
-                align: 'left'
+                text: 'Gender',
+                align: 'center'
             },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
+
             accessibility: {
+                announceNewData: {
+                    enabled: true
+                },
                 point: {
                     valueSuffix: '%'
                 }
             },
+
             plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
+                series: {
+                    borderRadius: 5,
                     dataLabels: {
                         enabled: true,
-                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                        format: '{point.name}: {point.y:.1f}%'
                     }
                 }
             },
-            series: [{
-                name: 'Age',
-                colorByPoint: true,
-                // data: [{
-                //     name: 'Chrome',
-                //     y: 70.67,
-                // }, {
-                //     name: 'Edge',
-                //     y: 14.77
-                // }]
-                data : result
-            }]
-        });
-    }
 
-};
-
-let chart3 = {
-    init   : function () {
-        /* this를 고정 */
-        const self = this;
-        self.getData(self)
-    },
-    getData: function (self) {
-        $.ajax({
-            url    : '/baseRate',
-            success: function (result) {
-                console.log(result);
-                self.display(result);
-            }
-        });
-    },
-    display: function (result) {
-        Highcharts.chart('container3', {
-            chart: {
-                type: 'spline'
-            },
-            title: {
-                text: '한미 기준금리 추이, 2022년'
-            },
-            subtitle: {
-                text: 'Source: ' +
-                    '<a href="https://elonbro.tistory.com/entry/%EA%B8%B0%EC%A4%80%EA%B8%88%EB%A6%AC-%ED%95%9C%EA%B5%AD-%EB%AF%B8%EA%B5%AD-%EA%B8%B0%EC%A4%80-%EA%B8%88%EB%A6%AC-%EB%B9%84%EA%B5%90" ' +
-                    'target="_blank">한미기준금리차이</a>'
-            },
-            xAxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                accessibility: {
-                    description: 'Months of the year'
-                }
-            },
-            yAxis: {
-                title: {
-                    text: 'Base rate'
-                },
-                labels: {
-                    formatter: function () {
-                        return this.value + '%';
-                    }
-                }
-            },
             tooltip: {
-                crosshairs: true,
-                shared: true
+                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
             },
-            plotOptions: {
-                spline: {
-                    marker: {
-                        radius: 4,
-                        lineColor: '#666666',
-                        lineWidth: 1
-                    }
-                }
-            },
-            // series: [{
-            //   name: 'Tokyo',
-            //   marker: {
-            //     symbol: 'square'
-            //   },
-            //   data: [5.2, 5.7, 8.7, 13.9, 18.2, 21.4, 25.0, {
-            //     y: 26.4,
-            //     marker: {
-            //       symbol: 'url(https://www.highcharts.com/samples/graphics/sun.png)'
-            //     },
-            //     accessibility: {
-            //       description: 'Sunny symbol, this is the warmest point in the chart.'
-            //     }
-            //   }, 22.8, 17.5, 12.1, 7.6]
-            //
-            // }, {
-            //   name: 'Bergen',
-            //   marker: {
-            //     symbol: 'diamond'
-            //   },
-            //   data: [{
-            //     y: 1.5,
-            //     marker: {
-            //       symbol: 'url(https://www.highcharts.com/samples/graphics/snow.png)'
-            //     },
-            //     accessibility: {
-            //       description: 'Snowy symbol, this is the coldest point in the chart.'
-            //     }
-            //   }, 1.6, 3.3, 5.9, 10.5, 13.5, 14.5, 14.4, 11.5, 8.7, 4.7, 2.6]
-            // }]
-            series : result
-        });
 
+            series: [
+                {
+                    name: 'Browsers',
+                    colorByPoint: true,
+                    data: [
+                        {
+                            name: 'M',
+                            y: 50,
+                            drilldown: 'M'
+                        },
+                        {
+                            name: 'F',
+                            y: 50,
+                            drilldown: 'F'
+                        },
+
+                    ]
+                }
+            ],
+            drilldown: {
+                series: [
+                    {
+                        name: 'M',
+                        id: 'M',
+                        data: [
+                            [
+                                'v97.0',
+                                36.89
+                            ]
+                        ]
+                    },
+                    {
+                        name: 'F',
+                        id: 'F',
+                        data: [
+                            [
+                                'v15.3',
+                                0.1
+                            ]
+                        ]
+                    }
+                ]
+            }
+        }); //코드끝
     }
-}
+};

@@ -9,7 +9,8 @@ import java.util.List;
 
 @Mapper
 @Repository
-public interface CartMapper extends KBMapper<String, Cart> {
+public interface CartMapper extends KBMapper<Integer, Cart> {
     public List<Cart> getmycart(String cid);
+    public Integer cartsum();
 
 }

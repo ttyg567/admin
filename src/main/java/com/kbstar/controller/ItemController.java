@@ -1,9 +1,7 @@
 package com.kbstar.controller;
 
-import com.kbstar.dto.Item;
-import com.kbstar.dto.ItemSearch;
-import com.kbstar.dto.Marker;
-import com.kbstar.dto.MarkerSearch;
+import com.kbstar.dto.*;
+import com.kbstar.service.CartService;
 import com.kbstar.service.ItemService;
 import com.kbstar.util.FileUploadUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +22,9 @@ public class ItemController {
 
     @Autowired
     ItemService itemService;
+
+    @Autowired
+    CartService cartService;
 
     String dir = "item/";
 
@@ -87,13 +88,17 @@ public class ItemController {
     }
 
     @RequestMapping("/search")
-    public String search(Model model, ItemSearch is) throws Exception {
-        List<Item> list = itemService.search(is);
-        model.addAttribute("is", is);
+    public String search(Model model, ItemSearch ms) throws Exception {
+        List<Item > list = null;
+        list = itemService.search(ms);
+        model.addAttribute("ms", ms);
         model.addAttribute("clist", list);
         model.addAttribute("center", dir+"all");
-
         return "index";
     }
+
+
+
+
 
 }

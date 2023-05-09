@@ -35,33 +35,42 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Item All Table</h6>
-            <form id="search_form" class="form-inline well">
+            <form action  ="/item/search" method="submit" id="search_form" class="form-inline well">
+
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="min_price">Min_Price: </label>
-                    <div class="col-sm-4"> <!--name 은 서버로 보내는 이름을 의미-->
-                            <input type="number" name="min_price" class="form-control" id="min_price"
-                                   value="${is.min_price}"
-                            >
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="max_price">Max_Price: </label>
-                    <div class="col-sm-4"> <!--name 은 서버로 보내는 이름을 의미-->
-                        <input type="number" name="max_price" class="form-control" id="max_price"
-                               value="${is.max_price}"
+                    <label class="control-label col-sm-2" for="name">Name:</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="name" class="form-control" id="name" placeholder="Enter title"
+                               value="${ms.name}"
                         >
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="name">Name: </label>
-                    <div class="col-sm-4"> <!--name 은 서버로 보내는 이름을 의미-->
-                        <input type="text" name="name" class="form-control" id="name"
-                               value="${is.name}"
+                    <label class="control-label col-sm-2" for="price">Price:</label>
+                    <div class="col-sm-10">
+                        <input type="number" name="price" class="form-control" id="price" placeholder="Enter title"
+                               value="${ms.price}"
                         >
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
+                    <label class="control-label col-sm-2" for="startdate">Start Date:</label>
+                    <div class="col-sm-10">
+                        <input type="date" name="startdate" class="form-control" id="startdate" placeholder="Enter title"
+                               value="${ms.startdate}"
+                        >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="enddate">End Date:</label>
+                    <div class="col-sm-10">
+                        <input type="date" name="enddate" class="form-control" id="enddate" placeholder="Enter title"
+                               value="${ms.enddate}"
+                        >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-2">
                         <button id="search_btn" type="button" class="btn btn-info">Search</button>
                     </div>
                 </div>

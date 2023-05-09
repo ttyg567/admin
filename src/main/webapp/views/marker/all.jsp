@@ -39,6 +39,7 @@
                 <label class="control-label col-sm-2" for="loc">Loc: </label>
                 <div class="col-sm-4"> <!--name 은 서버로 보내는 이름을 의미-->
                     <select class="form-control" id="loc" name="loc" >
+                        <option value="">지역</option>
                         <option value="s" <c:if test="${ms.loc=='s'}">selected</c:if> >서울</option>
                         <option value="b" <c:if test="${ms.loc=='b'}">selected</c:if> >부산</option>
                         <option value="j" <c:if test="${ms.loc=='j'}">selected</c:if> >제주</option>

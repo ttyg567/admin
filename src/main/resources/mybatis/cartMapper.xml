@@ -25,6 +25,13 @@
           AND c.item_id = it.id
           AND c.cust_id = #{c.id}
     </select>
+
+    <select id="sumcart" resultType="Integer">
+        SELECT sum(c.cnt*it.price)
+        FROM cart c, item it
+        WHERE c.item_id = it.id
+    </select>
+
     <select id="selectall" resultType="cart">
         SELECT c.id, c.cust_id, c.item_id, c.cnt, c.rdate,
                cu.name AS cust_name, it.name AS item_name,

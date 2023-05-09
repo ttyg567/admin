@@ -6,6 +6,7 @@ import com.kbstar.service.AdmService;
 import com.kbstar.service.CustService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,9 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class MainController {
 
+    @Value("${adminserver}")
+    String adminserver;
+
     @Autowired
     private BCryptPasswordEncoder encoder;
 
@@ -25,7 +29,8 @@ public class MainController {
     AdmService admService;
 
     @RequestMapping("/")
-    public String main() {
+    public String main(Model model) {
+        model.addAttribute("adminserver", adminserver);
         return "index";
     }
 
@@ -51,6 +56,13 @@ public class MainController {
             throw new Exception("시스템 장애, 잠시 후 다시 로그인 하세요");
         }
         model.addAttribute("center", nextPage);
+        return "index";
+    }
+
+    @RequestMapping("/websocket")
+    public String websocket(Model model){
+        model.addAttribute("adminserver", adminserver);
+        model.addAttribute("center", "websocket");
         return "index";
     }
 
@@ -93,6 +105,7 @@ public class MainController {
 
     @RequestMapping("/livechart")
     public String livechart(Model model) {
+        model.addAttribute("adminserver", adminserver);
         model.addAttribute("center", "livechart");
         return "index";
     }
